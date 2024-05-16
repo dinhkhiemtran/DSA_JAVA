@@ -90,7 +90,7 @@ public class DoublyLinkedList<T> {
     }
     Node<T> newNode = new Node<>();
     newNode.setData(data);
-    if (index > size - 1) {
+    if (index == size) {
       add(data);
       return; // Exit as `add` already increments size
     }
@@ -106,6 +106,30 @@ public class DoublyLinkedList<T> {
       current.setNext(newNode);
     }
     this.size++;
+  }
+
+  public T remove(int index) {
+    T data;
+    Node<T> current = head;
+    if (index < 0 || index > size) {
+      throw new IllegalArgumentException("Invalid position");
+    }
+    if (index == size -1) {
+      return remove();
+    }
+    if (index == 0) {
+      data = current.getData();
+      head = current.getNext();
+    } else {
+      for (int i = 1; i < index; i++) {
+        current = current.getNext();
+      }
+      data = current.getNext().getData();
+      current.getNext().getNext().setPrevious(current);
+      current.setNext(current.getNext().getNext());
+    }
+    this.size--;
+    return data;
   }
 
   public void display() {
