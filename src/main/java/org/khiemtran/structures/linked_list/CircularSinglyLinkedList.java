@@ -49,6 +49,81 @@ public class CircularSinglyLinkedList<T> {
     this.size++;
   }
 
+  public T remove() {
+    T data;
+    if (head == null) {
+      throw new IllegalArgumentException("Linked List is empty");
+    }
+    if (size == 1) {
+      data = head.getData();
+      head = null;
+    } else {
+      Node<T> current = head;
+      while (current.getNext() != head) {
+        current = current.getNext();
+      }
+      data = current.getNext().getData();
+      current.setNext(head.getNext());
+      head = current.getNext();
+    }
+    this.size--;
+    return data;
+  }
+
+  public void insert(T data, int index) {
+    Node<T> newNode = new Node<>(data);
+    Node<T> current = head;
+    if (index < 0 || index >= size) {
+      throw new IndexOutOfBoundsException("Invalid position.");
+    }
+    if (index == 0) {
+      while (current.getNext() != head) {
+        current = current.getNext();
+      }
+      newNode.setNext(head);
+      head = newNode;
+      current.setNext(head);
+    } else {
+      for (int i = 1; i < index; i++) {
+        current = current.getNext();
+      }
+      newNode.setNext(current.getNext());
+      current.setNext(newNode);
+    }
+    this.size++;
+  }
+
+  public T remove(int index) {
+    Node<T> current = head;
+    T data;
+    if (head == null || size == 0) {
+      throw new IllegalArgumentException("Invalid position.");
+    }
+    if (index < 0 || index >= size) {
+      throw new IndexOutOfBoundsException("Invalid position");
+    }
+    if (index == 0) {
+      data = head.getData();
+      if (size == 1) {
+        head = null;
+      } else {
+        while (current.getNext() != head) {
+          current = current.getNext();
+        }
+        current.setNext(head.getNext());
+        head = head.getNext();
+      }
+    } else {
+      for (int i = 1; i < index; i++) {
+        current = current.getNext();
+      }
+      data = current.getNext().getData();
+      current.setNext(current.getNext().getNext());
+    }
+    this.size--;
+    return data;
+  }
+
   public void display() {
     Node<T> current = head;
     do {
