@@ -53,7 +53,7 @@ public class DoublyLinkedList<T> {
     return size;
   }
 
-  public void add(T data) {
+  public void addLast(T data) {
     Node<T> newNode = new Node<>();
     newNode.setData(data);
     if (head == null) {
@@ -66,7 +66,20 @@ public class DoublyLinkedList<T> {
     this.size++;
   }
 
-  public T remove() {
+  public void addFirst(T data) {
+    Node<T> newNode = new Node<>();
+    newNode.setData(data);
+    if (head == null) {
+      tail = newNode;
+    } else {
+      newNode.setNext(head);
+      head.setPrevious(newNode);
+    }
+    head = newNode;
+    this.size++;
+  }
+
+  public T removeLast() {
     T data;
     if (head == null || size == 0) {
       throw new IllegalArgumentException("Linked list is empty");
@@ -84,16 +97,30 @@ public class DoublyLinkedList<T> {
     return data;
   }
 
+  public T removeFirst() {
+    T data;
+    if (head == null || size == 0) {
+      throw new IllegalArgumentException("Linked list is empty");
+    }
+    if (head.getNext() == null || size == 1) {
+      data = head.getData();
+      head = null;
+      tail = null;
+    } else {
+      data = head.getData();
+      head = head.getNext();
+      head.setPrevious(null);
+    }
+    this.size--;
+    return data;
+  }
+
   public void insert(T data, int index) {
-    if (index < 0 || index > size) {
+    if (index < 0 || index >= size) {
       throw new IllegalArgumentException("Invalid position");
     }
     Node<T> newNode = new Node<>();
     newNode.setData(data);
-    if (index == size) {
-      add(data);
-      return; // Exit as `add` already increments size
-    }
     if (index == 0) {
       newNode.setNext(head);
       head = newNode;
@@ -111,11 +138,8 @@ public class DoublyLinkedList<T> {
   public T remove(int index) {
     T data;
     Node<T> current = head;
-    if (index < 0 || index > size) {
-      throw new IllegalArgumentException("Invalid position");
-    }
-    if (index == size -1) {
-      return remove();
+    if (index < 0 || index >= size) {
+      throw new IndexOutOfBoundsException("Invalid position");
     }
     if (index == 0) {
       data = current.getData();
