@@ -3,10 +3,33 @@ package org.khiemtran.structures.linked_list;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 
-import java.util.*;
+import java.util.Arrays;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 class CircularDoublyLinkedListTest {
   private final CircularDoublyLinkedList<Object> linkedList = new CircularDoublyLinkedList<>();
+
+  @Test
+  public void checkAddOnlyElement() {
+    Assertions.assertTrue(linkedList.add(1));
+    Assertions.assertEquals(1, linkedList.getSize());
+  }
+
+  @Test
+  public void checkAddElements() {
+    Assertions.assertTrue(linkedList.add(1));
+    Assertions.assertTrue(linkedList.add("test"));
+    Assertions.assertTrue(linkedList.add('t'));
+    Assertions.assertTrue(linkedList.add(Arrays.asList(1, 2, 3)));
+    Map<Integer, String> map = new HashMap<>();
+    map.put(1, "1");
+    map.put(2, "2");
+    map.put(3, "3");
+    Assertions.assertTrue(linkedList.add(map));
+    Assertions.assertEquals(5, linkedList.getSize());
+  }
 
   @Test
   public void addOnlyElement() {
@@ -63,7 +86,55 @@ class CircularDoublyLinkedListTest {
     Assertions.assertEquals(5, linkedList.getSize());
     linkedList.display();
   }
-  
+
+  @Test
+  public void insertIndexOUtOfBoundException() {
+    Assertions.assertThrows(IndexOutOfBoundsException.class, () -> linkedList.add(0, 1), "Invalid position");
+    Assertions.assertThrows(IndexOutOfBoundsException.class, () -> linkedList.add(-1, 1), "Invalid position");
+    Assertions.assertThrows(IndexOutOfBoundsException.class, () -> linkedList.add(1, 1), "Invalid position");
+  }
+
+  @Test
+  public void insertElement() {
+    linkedList.addFirst(1);
+    linkedList.addLast(5);
+    linkedList.add(1, 2);
+    linkedList.add(2, 3);
+    linkedList.add(3, 4);
+    linkedList.display();
+    Assertions.assertEquals(1, linkedList.getHead().getData());
+    Assertions.assertEquals(5, linkedList.getTail().getData());
+    Assertions.assertEquals(2, linkedList.getHead().getNext().getData());
+    Assertions.assertEquals(4, linkedList.getTail().getPrevious().getData());
+    Assertions.assertEquals(5, linkedList.getSize());
+  }
+
+  @Test
+  public void checkRemoveWhenLinkedListEmpty() {
+    Assertions.assertFalse(linkedList.remove());
+  }
+
+  @Test
+  public void checkRemoveOnlyElement() {
+    linkedList.add(1);
+    Assertions.assertTrue(linkedList.remove());
+    Assertions.assertFalse(linkedList.remove());
+    Assertions.assertNull(linkedList.getHead());
+    Assertions.assertNull(linkedList.getTail());
+  }
+
+  @Test
+  public void checkRemoveElements() {
+    linkedList.add(1);
+    linkedList.add(2);
+    linkedList.add(3);
+    Assertions.assertTrue(linkedList.remove());
+    Assertions.assertTrue(linkedList.remove());
+    Assertions.assertEquals(1, linkedList.getHead().getData());
+    Assertions.assertEquals(1, linkedList.getTail().getData());
+    Assertions.assertEquals(1, linkedList.getSize());
+  }
+
   @Test
   public void removeLastElementWhenLinkedListEmpty() {
     Assertions.assertThrows(IllegalArgumentException.class, linkedList::removeLast, "Linked list empty.");
@@ -129,5 +200,27 @@ class CircularDoublyLinkedListTest {
     Assertions.assertEquals(3, linkedList.getHead().getData());
     Assertions.assertEquals(3, linkedList.getTail().getData());
     Assertions.assertEquals(1, linkedList.getSize());
+  }
+
+  @Test
+  public void removeIndexOutOfBound() {
+    Assertions.assertThrows(IndexOutOfBoundsException.class, () -> linkedList.remove(-1), "Invalid position");
+    Assertions.assertThrows(IndexOutOfBoundsException.class, () -> linkedList.remove(0), "Invalid position");
+    Assertions.assertThrows(IndexOutOfBoundsException.class, () -> linkedList.remove(1), "Invalid position");
+  }
+
+  @Test
+  public void removeIndexElements() {
+    linkedList.add(1);
+    linkedList.add(2);
+    linkedList.add(3);
+    linkedList.add(4);
+    linkedList.add(5);
+    Assertions.assertEquals(2, linkedList.remove(1));
+    Assertions.assertEquals(4, linkedList.remove(2));
+    Assertions.assertEquals(3, linkedList.remove(1));
+    Assertions.assertEquals(5, linkedList.getHead().getNext().getData());
+    Assertions.assertEquals(1, linkedList.getTail().getPrevious().getData());
+    Assertions.assertEquals(2, linkedList.getSize());
   }
 }

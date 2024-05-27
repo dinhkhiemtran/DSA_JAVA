@@ -55,6 +55,21 @@ public class CircularDoublyLinkedList<T> {
     return size;
   }
 
+  public boolean add(T data) {
+    Node<T> newNode = new Node<>(data);
+    if (head == null) {
+      head = newNode;
+    } else {
+      tail.setNext(newNode);
+      newNode.setPrevious(tail);
+    }
+    tail = newNode;
+    tail.setNext(head);
+    head.setPrevious(tail);
+    this.size++;
+    return true;
+  }
+
   public void addLast(T data) {
     Node<T> newNode = new Node<>(data);
     if (head == null) {
@@ -83,10 +98,42 @@ public class CircularDoublyLinkedList<T> {
     this.size++;
   }
 
+  public void add(int index, T data) {
+    Node<T> newNode = new Node<>(data);
+    Node<T> current = head;
+    if (index <= 0 || index >= size) {
+      throw new IndexOutOfBoundsException("Invalid position");
+    }
+    for (int i = 1; i < index; i++) {
+      current = current.getNext();
+    }
+    newNode.setNext(current.getNext());
+    newNode.setPrevious(current);
+    current.getNext().setPrevious(newNode);
+    current.setNext(newNode);
+    this.size++;
+  }
+
+  public boolean remove() {
+    if (head == null) {
+      return false;
+    }
+    if (head == tail) {
+      head = null;
+      tail = null;
+    } else {
+      tail = tail.getPrevious();
+      tail.setNext(head);
+      head.setPrevious(tail);
+    }
+    this.size--;
+    return true;
+  }
+
   public T removeLast() {
     T data;
     if (head == null) {
-      throw new IllegalArgumentException("Linked List is empty");
+      throw new IllegalArgumentException("Linked list is empty");
     }
     if (head == tail) {
       data = tail.getData();
@@ -117,6 +164,21 @@ public class CircularDoublyLinkedList<T> {
       head.setPrevious(tail);
       tail.setNext(head);
     }
+    this.size--;
+    return data;
+  }
+
+  public T remove(int index) {
+    Node<T> current = head;
+    if (index <= 0 || index >= size) {
+      throw new IndexOutOfBoundsException("Invalid position");
+    }
+    for (int i = 1; i < index; i++) {
+      current = current.getNext();
+    }
+    T data = current.getNext().getData();
+    current.getNext().getNext().setPrevious(current);
+    current.setNext(current.getNext().getNext());
     this.size--;
     return data;
   }
