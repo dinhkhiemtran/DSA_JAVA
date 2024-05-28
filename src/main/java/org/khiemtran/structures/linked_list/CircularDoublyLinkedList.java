@@ -1,5 +1,7 @@
 package org.khiemtran.structures.linked_list;
 
+import java.util.NoSuchElementException;
+
 public class CircularDoublyLinkedList<T> {
   public static class Node<T> {
     private Node<T> next;
@@ -57,7 +59,7 @@ public class CircularDoublyLinkedList<T> {
 
   public boolean add(T data) {
     Node<T> newNode = new Node<>(data);
-    if (head == null) {
+    if (head == null || size == 0) {
       head = newNode;
     } else {
       tail.setNext(newNode);
@@ -72,7 +74,7 @@ public class CircularDoublyLinkedList<T> {
 
   public void addLast(T data) {
     Node<T> newNode = new Node<>(data);
-    if (head == null) {
+    if (head == null || size == 0) {
       head = newNode;
     } else {
       tail.setNext(newNode);
@@ -86,7 +88,7 @@ public class CircularDoublyLinkedList<T> {
 
   public void addFirst(T data) {
     Node<T> newNode = new Node<>(data);
-    if (head == null) {
+    if (head == null || size == 0) {
       tail = newNode;
     } else {
       newNode.setNext(head);
@@ -102,7 +104,7 @@ public class CircularDoublyLinkedList<T> {
     Node<T> newNode = new Node<>(data);
     Node<T> current = head;
     if (index <= 0 || index >= size) {
-      throw new IndexOutOfBoundsException("Invalid position");
+      throw new IndexOutOfBoundsException("Invalid position.");
     }
     for (int i = 1; i < index; i++) {
       current = current.getNext();
@@ -118,7 +120,7 @@ public class CircularDoublyLinkedList<T> {
     if (head == null) {
       return false;
     }
-    if (head == tail) {
+    if (head == tail || size == 1) {
       head = null;
       tail = null;
     } else {
@@ -133,9 +135,9 @@ public class CircularDoublyLinkedList<T> {
   public T removeLast() {
     T data;
     if (head == null) {
-      throw new IllegalArgumentException("Linked list is empty");
+      throw new NoSuchElementException("Linked list has no elements.");
     }
-    if (head == tail) {
+    if (head == tail || size == 1) {
       data = tail.getData();
       head = null;
       tail = null;
@@ -151,10 +153,10 @@ public class CircularDoublyLinkedList<T> {
 
   public T removeHead() {
     T data;
-    if (head == null) {
-      throw new IllegalArgumentException("Linked List is empty");
+    if (head == null || size == 0) {
+      throw new NoSuchElementException("Linked list has no elements.");
     }
-    if (head == tail) {
+    if (head == tail || size == 1) {
       data = tail.getData();
       head = null;
       tail = null;
@@ -171,7 +173,7 @@ public class CircularDoublyLinkedList<T> {
   public T remove(int index) {
     Node<T> current = head;
     if (index <= 0 || index >= size) {
-      throw new IndexOutOfBoundsException("Invalid position");
+      throw new IndexOutOfBoundsException("Invalid position.");
     }
     for (int i = 1; i < index; i++) {
       current = current.getNext();
@@ -185,9 +187,13 @@ public class CircularDoublyLinkedList<T> {
 
   public void display() {
     Node<T> current = head;
-    do {
-      System.out.println(current.getData());
-      current = current.getNext();
-    } while (current != head);
+    try {
+      do {
+        System.out.println(current.getData());
+        current = current.getNext();
+      } while (current != head);
+    } catch (NullPointerException e) {
+      throw new NoSuchElementException("Linked list has no elements.");
+    }
   }
 }

@@ -3,13 +3,15 @@ package org.khiemtran.structures.linked_list;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 
-import java.util.Arrays;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 class CircularDoublyLinkedListTest {
   private final CircularDoublyLinkedList<Object> linkedList = new CircularDoublyLinkedList<>();
+
+  @Test
+  public void displayNullPointerException() {
+    Assertions.assertThrows(NoSuchElementException.class, linkedList::display, "Linked list has no elements");
+  }
 
   @Test
   public void checkAddOnlyElement() {
@@ -137,7 +139,7 @@ class CircularDoublyLinkedListTest {
 
   @Test
   public void removeLastElementWhenLinkedListEmpty() {
-    Assertions.assertThrows(IllegalArgumentException.class, linkedList::removeLast, "Linked list empty.");
+    Assertions.assertThrows(NoSuchElementException.class, linkedList::removeLast, "Linked list empty.");
   }
 
   @Test
@@ -173,7 +175,7 @@ class CircularDoublyLinkedListTest {
 
   @Test
   public void removeFirstWhenLinkedListEmpty() {
-    Assertions.assertThrows(IllegalArgumentException.class, linkedList::removeHead, "Linked List is empty.");
+    Assertions.assertThrows(NoSuchElementException.class, linkedList::removeHead, "Linked List is empty.");
   }
 
   @Test

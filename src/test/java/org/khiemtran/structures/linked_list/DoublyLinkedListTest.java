@@ -3,13 +3,26 @@ package org.khiemtran.structures.linked_list;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 
-import java.util.Arrays;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
+import java.util.concurrent.atomic.AtomicInteger;
 
 class DoublyLinkedListTest {
-  private DoublyLinkedList<Object> linkedList = new DoublyLinkedList<>();
+  private final DoublyLinkedList<Object> linkedList = new DoublyLinkedList<>();
+
+  @Test
+  public void checkAddElements() {
+    AtomicInteger atomicInteger = new AtomicInteger(1);
+    Assertions.assertTrue(linkedList.add(atomicInteger.getAndIncrement()));
+    Assertions.assertTrue(linkedList.add(atomicInteger.getAndIncrement()));
+    Assertions.assertTrue(linkedList.add(atomicInteger.getAndIncrement()));
+    Assertions.assertTrue(linkedList.add(atomicInteger.getAndIncrement()));
+    Assertions.assertTrue(linkedList.add(atomicInteger.getAndIncrement()));
+    Assertions.assertEquals(5, linkedList.getTail().getData());
+    Assertions.assertEquals(4, linkedList.getTail().getPrevious().getData());
+    Assertions.assertEquals(1, linkedList.getHead().getData());
+    Assertions.assertEquals(2, linkedList.getHead().getNext().getData());
+    Assertions.assertEquals(5, linkedList.getSize());
+  }
 
   @Test
   public void addElementWhenEmpty() {
@@ -56,8 +69,27 @@ class DoublyLinkedListTest {
   }
 
   @Test
+  public void checkRemoveElement() {
+    Assertions.assertFalse(linkedList.remove());
+    Assertions.assertTrue(linkedList.add(1));
+    Assertions.assertTrue(linkedList.add(2));
+    Assertions.assertTrue(linkedList.add(3));
+    Assertions.assertTrue(linkedList.remove());
+    Assertions.assertEquals(1, linkedList.getHead().getData());
+    Assertions.assertEquals(2, linkedList.getHead().getNext().getData());
+    Assertions.assertEquals(2, linkedList.getTail().getData());
+    Assertions.assertEquals(1, linkedList.getTail().getPrevious().getData());
+    Assertions.assertEquals(2, linkedList.getSize());
+    Assertions.assertTrue(linkedList.remove());
+    Assertions.assertTrue(linkedList.remove());
+    Assertions.assertNull(linkedList.getHead());
+    Assertions.assertNull(linkedList.getTail());
+    Assertions.assertEquals(0, linkedList.getSize());
+  }
+
+  @Test
   public void removeWhenLLEmpty() {
-    Assertions.assertThrows(IllegalArgumentException.class, linkedList::removeLast, "Linked list is empty");
+    Assertions.assertThrows(NoSuchElementException.class, linkedList::removeLast, "Linked list is empty");
   }
 
   @Test
@@ -101,7 +133,7 @@ class DoublyLinkedListTest {
 
   @Test
   public void removeFirstWhenLinkedListEmpty() {
-    Assertions.assertThrows(IllegalArgumentException.class, linkedList::removeFirst, "Linked list is empty");
+    Assertions.assertThrows(NoSuchElementException.class, linkedList::removeFirst, "Linked list is empty");
   }
 
   @Test
@@ -129,26 +161,14 @@ class DoublyLinkedListTest {
 
   @Test
   public void insertIndexNegative() {
-    Assertions.assertThrows(IllegalArgumentException.class, () -> linkedList.insert(1, -1), "Invalid position");
-  }
-
-  @Test
-  public void insertIndexZero() {
-    linkedList.addLast(1);
-    linkedList.insert(0, 0);
-    Assertions.assertEquals(0, linkedList.getHead().getData());
-    Assertions.assertEquals(1, linkedList.getTail().getData());
-    Assertions.assertEquals(2, linkedList.getSize());
-    linkedList.insert(-1, 0);
-    Assertions.assertEquals(-1, linkedList.getHead().getData());
-    Assertions.assertEquals(3, linkedList.getSize());
+    Assertions.assertThrows(IndexOutOfBoundsException.class, () -> linkedList.add(-1, 1), "Invalid position");
   }
 
   @Test
   public void insertIndexOne() {
     linkedList.addLast(1);
     linkedList.addLast(3);
-    linkedList.insert(2, 1);
+    linkedList.add(1, 2);
     Assertions.assertEquals(1, linkedList.getHead().getData());
     Assertions.assertEquals(2, linkedList.getHead().getNext().getData());
     Assertions.assertEquals(3, linkedList.getTail().getData());
@@ -162,7 +182,7 @@ class DoublyLinkedListTest {
     linkedList.addLast(4);
     linkedList.addLast(5);
     Assertions.assertEquals(4, linkedList.getSize());
-    linkedList.insert(3, 2);
+    linkedList.add(2, 3);
     Assertions.assertEquals(3, linkedList.getHead().getNext().getNext().getData());
     Assertions.assertEquals(5, linkedList.getTail().getData());
     Assertions.assertEquals(5, linkedList.getSize());
@@ -172,21 +192,6 @@ class DoublyLinkedListTest {
   @Test
   public void removeWhenLinkedListEmpty() {
     Assertions.assertThrows(IndexOutOfBoundsException.class, () -> linkedList.remove(1), "Invalid position");
-  }
-
-  @Test
-  public void removeIndexZero() {
-    linkedList.addLast(1);
-    Assertions.assertEquals(1, linkedList.getSize());
-    Assertions.assertEquals(1, linkedList.remove(0));
-    linkedList.addLast(1);
-    linkedList.addLast(2);
-    linkedList.addLast(3);
-    Assertions.assertEquals(1, linkedList.remove(0));
-    Assertions.assertEquals(2, linkedList.getHead().getData());
-    Assertions.assertEquals(3, linkedList.getTail().getData());
-    Assertions.assertEquals(2, linkedList.getSize());
-    linkedList.display();
   }
 
   @Test
