@@ -130,7 +130,7 @@ public class SinglyLinkedList<T> {
   public T removeFirst() {
     T data;
     if (head == null || size == 0) {
-      throw new NoSuchElementException("Linked list have no elements.");
+      throw new NoSuchElementException("Linked list have no elements");
     }
     if (size == 1) {
       data = head.getData();
@@ -147,7 +147,7 @@ public class SinglyLinkedList<T> {
     Node<T> current = head;
     T data;
     if (index < 0 || index >= size) {
-      throw new IndexOutOfBoundsException("Invalid position.");
+      throw new IndexOutOfBoundsException("Invalid position");
     }
     for (int i = 1; i < index; i++) {
       current = current.getNext();

@@ -90,6 +90,7 @@ class CircularSinglyLinkedListTest {
     Assertions.assertEquals(2, linkedList.getSize());
     Assertions.assertEquals(1, linkedList.getHead().getNext().getNext().getData());
   }
+
   @Test
   public void removeWhenLinkedListEmpty() {
     Assertions.assertThrows(NoSuchElementException.class, linkedList::removeLast, "Linked list has no elements");
@@ -187,9 +188,9 @@ class CircularSinglyLinkedListTest {
 
   @Test
   public void removeIllegalArgumentException() {
-    Assertions.assertThrows(NoSuchElementException.class, () -> linkedList.remove(0), "Linked list has no element.");
+    Assertions.assertThrows(IllegalArgumentException.class, () -> linkedList.remove(0), "Invalid position.");
+    Assertions.assertThrows(IllegalArgumentException.class, () -> linkedList.remove(-1), "Invalid position.");
     linkedList.addLast(1);
-    Assertions.assertThrows(IndexOutOfBoundsException.class, () -> linkedList.remove(-1), "Invalid position.");
     Assertions.assertThrows(IndexOutOfBoundsException.class, () -> linkedList.remove(-1), "Invalid position");
   }
 

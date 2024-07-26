@@ -104,7 +104,7 @@ public class CircularDoublyLinkedList<T> {
     Node<T> newNode = new Node<>(data);
     Node<T> current = head;
     if (index <= 0 || index >= size) {
-      throw new IndexOutOfBoundsException("Invalid position.");
+      throw new IndexOutOfBoundsException("Invalid position");
     }
     for (int i = 1; i < index; i++) {
       current = current.getNext();
@@ -173,7 +173,7 @@ public class CircularDoublyLinkedList<T> {
   public T remove(int index) {
     Node<T> current = head;
     if (index <= 0 || index >= size) {
-      throw new IndexOutOfBoundsException("Invalid position.");
+      throw new IndexOutOfBoundsException("Invalid position");
     }
     for (int i = 1; i < index; i++) {
       current = current.getNext();
@@ -193,7 +193,7 @@ public class CircularDoublyLinkedList<T> {
         current = current.getNext();
       } while (current != head);
     } catch (NullPointerException e) {
-      throw new NoSuchElementException("Linked list has no elements.");
+      throw new NoSuchElementException("Linked list has no elements");
     }
   }
 }

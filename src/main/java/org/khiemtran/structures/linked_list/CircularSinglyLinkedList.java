@@ -164,10 +164,10 @@ public class CircularSinglyLinkedList<T> {
     Node<T> current = head;
     T data;
     if (head == null || size == 0) {
-      throw new NoSuchElementException("Linked list has no element.");
+      throw new IllegalArgumentException("Invalid position.");
     }
     if (index <= 0 || index >= size) {
-      throw new IndexOutOfBoundsException("Invalid position.");
+      throw new IndexOutOfBoundsException("Invalid position");
     }
     for (int i = 1; i < index; i++) {
       current = current.getNext();
@@ -186,7 +186,7 @@ public class CircularSinglyLinkedList<T> {
         current = current.getNext();
       } while (current != head);
     } catch (NullPointerException e) {
-      throw new NoSuchElementException("Linked list has no element.");
+      throw new NoSuchElementException("Linked list has no element");
     }
   }
 }

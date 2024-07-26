@@ -96,7 +96,7 @@ public class DoublyLinkedList<T> {
 
   public void add(int index, T data) {
     if (index <= 0 || index >= size) {
-      throw new IndexOutOfBoundsException("Invalid position.");
+      throw new IllegalArgumentException("Invalid position");
     }
     Node<T> newNode = new Node<>(data);
     Node<T> current = head;
@@ -163,7 +163,7 @@ public class DoublyLinkedList<T> {
     T data;
     Node<T> current = head;
     if (index <= 0 || index >= size) {
-      throw new IndexOutOfBoundsException("Invalid position.");
+      throw new IndexOutOfBoundsException("Invalid position");
     }
     for (int i = 1; i < index; i++) {
       current = current.getNext();

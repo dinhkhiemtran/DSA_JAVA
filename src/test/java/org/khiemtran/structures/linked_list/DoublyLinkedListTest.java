@@ -161,7 +161,7 @@ class DoublyLinkedListTest {
 
   @Test
   public void insertIndexNegative() {
-    Assertions.assertThrows(IndexOutOfBoundsException.class, () -> linkedList.add(-1, 1), "Invalid position");
+    Assertions.assertThrows(IllegalArgumentException.class, () -> linkedList.add(-1, 1), "Invalid position");
   }
 
   @Test
